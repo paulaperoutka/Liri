@@ -1,42 +1,67 @@
 require('dotenv').config();
 
-var Twitter = require('twitter');
-var Spotify = require('node-spotify-api');
-var request = require('request');
-var fs = require('fs');
+const Twitter = require('twitter');
+const Spotify = require('node-spotify-api');
+const request = require('request');
+const fs = require('fs');
 
-var keys = require('keys.js');
+var keys = require('./keys.js');
 
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 
+var command = process.argv[2];
+var specifics = process.argv[3];
+
+var commands = ['my-tweets', 'spotify-this-song', 'movie-this', 'do-what-it-says'];
+
 // function getKeys () {
-// 	fs.readFile('keys.js', 'utf-8', (error, data) => {
-// 		let 
+// 	fs.readFileSync('./keys.js', 'utf-8', (error, data) => {
+// 		let keysArray = data;
 
 // 	}
 // };
 
-switch (command) {
+if (command===commands[0]) {
+		console.log('Your request: ' + commands[0]);
+		getTweets();
+	}
 
-	case ('my-tweets'):
-	getTweets();
-	break;
+else if (command===commands[1]) {
+		console.log('Your request: ' + commands[1]);
+		getSong();
+	}
 
-	case ('spotify-this-song'):
-	getSong();
-	break;
+else if (command===commands[2]) {
+		console.log('Your request: ' + commands[2]);
+		getMovie();
+	}
 
-	case ('movie-this'):
-	getMovie();
-	break;
+else if (command===commands[3]) {
+		console.log('Your request: ' + commands[3]);
+		random();
+	}
 
-	case ('do-what-it-says'):
+else {
+		console.log('Not a recognized request. Please enter one of the following commands: ' + commands + '.')
+	};
 
-	break;
-
-	default:
-	console.log("Not a recognized request.");
-
+function getTweets () {
+	console.log("twitter");
 };
+
+function getSong () {
+	console.log("spotify");
+};
+
+function getMovie () {
+	console.log("omdb");
+};
+
+function getRandom () {
+	console.log("random");
+};
+
+
+
