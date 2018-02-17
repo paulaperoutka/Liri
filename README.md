@@ -4,6 +4,15 @@ Liri is a Language Interpretation and Recognition Interface.
 
 Ask and Liri will answer!
 
+To use this app, open your command line and type any of the following commands:
+my-tweets
+  (to pull the last 20 tweets from a specified user)
+spotify-this-song
+  (followed by a song title, to pull spotify data on the specified song)
+movie-this
+  (followed by a movie title, to pull OMDB data on the specified movie)
+do-what-it-says
+  (to pull a random search from a random file that has logged all song and movie searches...roulette!)
 
 NOTES: 
 
