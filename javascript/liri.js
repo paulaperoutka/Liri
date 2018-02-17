@@ -7,12 +7,10 @@ const fs = require('fs');
 
 var keys = require('./keys.js');
 
-var spotify = new Spotify(keys.spotify);
-
 var command = process.argv[2];
-var operator = "";
-	for (i=3; i<process.argv.length; i++) {
-		operator += process.argv[i] + "-";
+var searchParam = '';
+	for (var i=3; i<process.argv.length; i++) {
+		searchParam += process.argv[i] + ' ';
 	}
 
 var commands = ['my-tweets', 'spotify-this-song', 'movie-this', 'do-what-it-says'];
@@ -24,7 +22,7 @@ if (command===commands[0]) {
 
 else if (command===commands[1]) {
 		console.log('Your request: ' + commands[1]);
-		getSong();
+		getSong(searchParam);
 	}
 
 else if (command===commands[2]) {
@@ -49,7 +47,7 @@ function getTweets () {
 	//path, params, callback
 	client.get('statuses/user_timeline', {user_id: '963869150295810048', count: 20}, function(error, tweets, response) {
 	  if(error){
-	  	console.log(error);
+	  	return console.log(error);
 	  } else {
 	  	// console.log(tweets);  // The tweets. 
 	  	// console.log(response);  // Raw response object. 
@@ -63,12 +61,40 @@ function getTweets () {
 
 };
 
-function getSong () {
-	console.log("spotify");
+function getSong (searchParam) {
+	console.log('Requesting from spotify...');
+
+	var spotify = new Spotify(keys.spotify);
+	  // * Artist(s) ... artists
+   //  * The song's name ... name
+   //  * A preview link of the song from Spotify ...preview_url
+   //  * The album that the song is from
+
+	if (searchParam === ''){
+   		searchParam = 'The Sign Ace of Base';
+   		console.log('No song searched; default is The Sign by Ace of Base. For a different song, please enter your song title after the spotify-this-song command.')
+  };
+
+  spotify.search({ type: 'track', query: searchParam, limit: 1 }, function(error, data) {
+	  if (error) {
+	    return console.log('Error occurred: ' + error);
+	  } else {
+
+	  	console.log(
+	  		'-----------------------------------\n' +
+	  		data.tracks.items[0].artists[0].name + '\n' +
+	  		data.tracks.items[0].name + '\n' +
+	  		data.tracks.items[0].preview_url + '\n' +
+	  		data.tracks.items[0].album.name + '\n-----------------------------------\n'
+	  	); 
+	  }
+
+	});
+
 };
 
 function getMovie () {
-	console.log("omdb");
+	console.log('Requesting from omdb...');
 };
 
 function getRandom () {
