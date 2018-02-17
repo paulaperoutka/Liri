@@ -77,6 +77,14 @@ function getSong (searchParam) {
    		console.log('No song searched; default is The Sign by Ace of Base. For different song info, please enter your song title after the spotify-this-song command.')
   };
 
+  let randomWrite = 'mspotify-this-song' + ', "' + searchParam.trim() + '"';
+
+	fs.appendFile('./random.txt', '; ' + randomWrite, function(error) {
+
+	  console.log(error || 'P.S. Random commands updated with this song search. Use command do-what-it-says for search roulette!');
+
+	});
+
 //type, track, limit (default 20)
   spotify.search({ type: 'track', query: searchParam, limit: 1 }, function(error, data) {
 	  if (error) {
@@ -116,6 +124,14 @@ function getMovie (searchParam) {
 		console.log('No movie searched; default is Mr. Nobody. For different movie info, please enter your movie title after the movie-this command.') 	
 	};
 
+	let randomWrite = 'movie-this' + ', "' + searchParam.trim() + '"';
+
+	fs.appendFile('./random.txt', '; ' + randomWrite, function(error) {
+
+	  console.log(error || 'P.S. Random commands updated with this movie search. Use command do-what-it-says for search roulette!');
+
+	});
+
 	searchParam = searchParam.split(' ').join('+');
 
 	var queryURL = "http://www.omdbapi.com/?t=" + searchParam + "&y=&plot=short&apikey=trilogy";
@@ -152,6 +168,8 @@ function getRandom () {
       console.log(random[0], random[1]);
       if (random[0] === 'spotify-this-song') {
       	getSong(random[1]);
+      } else if (random[0] === 'movie-this'){
+      	getMovie(random[1]);
       }
 		}
 	});
